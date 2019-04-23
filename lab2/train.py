@@ -1,6 +1,14 @@
-import random, math
+import random, math, sys
 language = ['en','nl']
-attributes = {attrname:choices}
+#attributes = {attrname:choices}
+
+def process(f):
+    x = {}
+    for line in f:
+        line = line.strip()
+        line = line.split('|')
+        x[line[1]] = line[0]
+    return x
 
 def plurality(ex):
     res = dict()
@@ -32,7 +40,7 @@ def importance(attr, ex):
             en += 1
         total += 1
     
-    for a in attr:
+    #for a in attr:
         
 def dtree(ex, attr, parent_ex):
     if not ex:
@@ -52,7 +60,12 @@ def dtree(ex, attr, parent_ex):
         return tree
 
 def main():
-    return
+    examples = open(sys.argv[1], 'r')
+    hypothesis = sys.argv[2]
+    learning = sys.argv[3]
+    ex = process(examples)
+    for x in ex:
+        print(x, ex[x])
 
 if __name__ == '__main__':
     main()
