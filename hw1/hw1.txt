@@ -1,0 +1,84 @@
+James Yang
+CSCI-331
+Homework 1
+
+Question 1
+
+The issue of procrastination within an AI is almost ironic. When we think of artificial
+intelligence, we think of highly efficient machines doing what humans can, except in a much
+more efficient manner. Yet, the in order to replicate the human mind (not brain), these "habits"
+would also have to be mimicked. So the idea that an AI machine would procrastinate appears
+foolish. But, without procrastination, if everything were done in a quick, efficient manner,
+the machine would lack the consciousness that a human has. Sometimes, it does take time for a
+sudden spark of inspiration. But that would go against the "perfectness" of what we
+imagine an AI should be. So, the contradiction would probably result in an AI not being
+able to procrastinate.
+
+Question 2
+
+A perfectly rational poker-playing agent never loses.
+
+This statement is false. By definition, acting rational is to choose the best choices
+through analyzing the situation. However, because of probability, there still exists the chance
+that the agent always draws the worst hand, and no matter how well it chooses its options, it
+will still lose because of chance.
+
+
+Suppose an agent selects its action uniformly at random from the set of possible actions.
+There exists a deterministic task environment in which the agent is rational.
+
+This statement is true. If there was a task environment where all actions would lead to the same
+result, then regardless of what action the agent takes, it will be rational. Even if actions
+were random selected, it would still be rational.
+
+Question 3
+
+Figuring out optimal schedule
+P: Minimizing distance between classes, Prereqs have been fulfilled, Classes fulfill degree
+requirement, Good class ratings, Class times do not overlap
+E: Other students, teachers, buildings, time
+A: Pick classes, waitlist classes
+S: Number of seats in a class
+
+Human playing soccer
+P: Scoring goals, preventing opponent from scoring goals, don't break rules, avoid injuries
+E: Soccer field, goals, other players, weather
+A: Movement of body, controlling the ball, passing to teammate, stealing ball from opponent,
+shooting goals
+S: Eyes, feet, sense of touch
+
+Small robots playing soccer
+P: Scoring goals, preventing opponent from scoring goals, don't break rules, avoid getting broken
+E: Green carpeted field, orange golf ball, other robots, off-field computers
+A: Movement, controlling ball, sensing where ball is
+S: Cameras, color sensor, sonar, accelerometer, keyboard 
+
+
+Question 4
+
+States: 6! * 4^5 number of states, each state being the result of choosing a number and an operator
+        to combine with previous state.
+Initial State: Choosing a random number from the set of 6. In the example, we start with 75.
+Successor Function: Choose an operator and choose a remaining number from the set. Do the
+                    arithmetic. If result is not an integer, undo the move and choose a new
+                    combination.
+Branching Factor: Maximum would be 20 for the first operation. Since it is a factorial, it would
+                  decrease as it goes down the tree.
+Maximum Search Depth: 6, there are only 6 numbers to choose from.
+Changes for all 3-digit numbers: No, because the current method can go through all combinations
+                                 of numbers and operators, thus giving all potential combinations
+                                 of 3 digit numbers.
+
+Question 5
+
+Using the exampleWords.txt file given:
+
+cold --> warm: ['cold', 'cord', 'word', 'ward', 'warm']
+small --> short: ['small', 'shall', 'shale', 'share', 'shore', 'short']
+
+Code attached in hw1.py
+
+Question 6
+
+Diagram in q6.pdf
+

@@ -1,0 +1,40 @@
+James Yang
+CSCI-331
+Homework 4
+
+1. a) P(Caff) = 16/30 = 0.533
+   b) P(Hot | Sweet) = 3/13 = 0.231
+   c) No, because P(A^B) for any two variables does not equal P(A) * P(B)
+
+2. a) See image
+   b) See image
+   c) P(r) = P(r|g=True) * P(g=True) + P(r|g=False) * P(g=False) = 0.1 * 0.4 + 0.7 * 0.4 = 0.32
+      P(g^s) = P(g) * p(s) = 0.4 * 0.5 = 0.2
+      P(~h) = P(~h|r,s) * P(r|g) * P(g) * P(s) = 0.1 * 0.1 * 0.4 * 0.5 = 0.002
+      P(r^~h) = P() * P(~h) = 
+      P(s|o) = P(o|s) * P(s) / P(o) = 0.9 * 0.5 / (0.9 * 0.5) = 1
+
+3. a) Grade on first midterm: not useful; Having only one grade does not implicate any trend/pattern for future grades.
+      Grade in CS2: useful and practical; Knowing the grade from one class can tell how a student does in a certain subject.
+      Amount of time studying: useful and practical; Usually more time studied implies better grades
+      Number of characters on the student's cheat sheet: useful but impractical; To collect every student's grades would be time consuming and can be difficult to interpret.
+      Amount of coffee consumed in the last week: not useful; Coffee usage does not implicate anything with grades.
+   b) Whether it rained in Rochester today: Useful and practical; It can be easily collected and can create a probability for the prediction.
+      Whether it rained in Cleveland today: Not useful; It is relatively far from Rochester, therefore, will not impact the area.
+      All 100-square-meter areas in the US: Useful but impractical; Can help determine rain travel patterns, but hard to collect
+      The wind speed in Rochester yesterday: Not useful; It would too late to determine tomorrow's weather.
+      The day of the week: Not useful; Day does not impact rain chance.
+      The month of the year: Useful and practical; Season can increase chance of rain.
+   c) The averge heights and opponent team: Not useful; height doesn't impact scoring.
+      The temperature outside at game time: Not useful; Hockey is played indoors.
+      The opponent's win/loss record: Useful and practical; Higher win rate gives more chance for higher points.
+      The number of goals per minute per player: Useful and practical; Collecting points per minute can estimate how many points they may get in a game.
+      The number of goals scored per kilometer skated by each player: Useful but impractical; Difficult to track distance skated.
+   d) The opinions of the last hundred people to eat there: Useful and practical; Knowing how large sample size felt about a restaurant can influence if I like it or not.
+      The number of stars in the Yelp review; Useful and practical; It can show how good a restaurant is.
+      The number of insects in the kitchen; Useful but impractical; Insects will definitely deter me liking a restaurant, but difficult to measure.
+4. 
+5. a) 50%
+   b) 0.5
+   c) 0.5
+   d) 

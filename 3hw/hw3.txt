@@ -1,0 +1,93 @@
+James Yang
+Homework 3
+
+
+1. a) i) Syntactically invalid and therefore meaningless
+      ii) Correctly expresses the English sentence
+      iii) Is syntactically valid, but does not express the meaning of the English sentence
+
+   b) i) Correctly expresses the English sentence
+      ii) Is syntactically valid, but does not express the meaning of the English sentence
+      iii) Syntactically invalid and therefore meaningless
+      iv) Syntactically invalid and therefore meaningless
+
+   c) i) Correctly expresses the English sentence
+      ii) Correctly expresses the English sentence
+      iii) Is syntactically valid, but does not express the meaning of the English sentence
+      iv) Is syntactically valid, but does not express the meaning of the English sentence
+
+2. Let E denote "there exists" and A denote "for all".
+
+   a) Occupation(Emily, surgeon) v Occupation(Emily, lawyer)
+   b) E x Occupation(Joe, actor) ^ Occupation(Joe, x) ^ (x != actor)
+   c) A x Occupation(x, surgeon) -> Occupation(x, doctor)
+   d) !E x Occupation(x, lawyer) ^ Customer(Joe, x)
+   e) E x Boss(x, Emily) ^ Occupation(x, lawyer)
+   f) E x1 Occupation(x1, lawyer) ^ A x2 Customer(x2, x1) -> Occupation(x2, doctor)
+   g) A x1 Occupation(x1, surgeon) -> E x2 Occupation(x2, lawyer) ^ Customer(x1, x2)
+
+3. Let E denote "there exists" and A denote "for all".
+   a. A x Cat(x) -> Animal(x)
+   b. A x Animal(x) ^ E y Afraid(x, y) -> Run(x, y) v Hide(x, y)
+   c. A x A y Cat(x) ^ (Dog(y) v Car(y)) -> Afraid(x, y)
+   d. Cat(Louie)
+   e. Dog(Jake)
+   f. A x Animal(x) ^ E y Hide(x, y) -> !Seen(x)
+   g. Seen(Louie)
+
+   Prove Run(Louie, Jake) by contradiction
+
+   0 Suppose !Run(Louie, Jake)
+   1 a becomes A x !Cat(x) v Animal(x)
+   2 b becomes E x !Animal(x) v A y !Afraid(x,y) v Run(x, y) v Hide(x, y)
+   3 c becomes E x E y !Cat(x) v (!Dog(y) ^ !Car(y)) v Afraid(x, y)
+   4 f becomes E x !Animal(x) v A y !Hide(x, y) v !Seen(x)
+
+   5 From 2 and 4, E x !Animal(x) v A y !Afraid(x,y) v Run(x,y) v !Seen(x)
+   6 From 1 and 5, A x !Cat(x) v A y !Afraid(x,y) v Run(x,y) v !Seen(x)
+   7 from d and 6, A x A y !Afraid(x,y) v Run(x,y) v !Seen(x)
+   8 From g and 7, A x A y !Afraid(x,y) v Run(x,y)
+   9 From 3 and 8, Run(x,y)
+   Contradiction from assumption, therefore Run(Louie, Jake)
+
+4. Grandchildren of Elizabeth:
+   beatrice, eugenie, harry, james, louise, peter, william, zara
+
+   Brother in law of diana:
+   andrew, edward
+
+   greatgrandparents of zara:
+   george, mum
+
+   ancestors of euginie:
+   george, mum, elizabeth, philip
+   
+5. a)
+     Move(loc1,loc2,r)
+     - Precond: At(loc1) ^ Within(loc1, r) ^ Within(loc2, r) ^ Room(r) ^ Location(loc1) ^ Location(loc2)
+     - Effect: !At(loc1) ^ At(loc2)
+     Push(b,loc1,loc2,r)
+     - Precond: BoxAt(loc1) ^ At(loc1) ^ Within(loc1, r) ^ Within(loc2, r) ^ Room(r) ^ Box(b) ^ Location(loc1) ^ Location(loc2)
+     - Effect: !(BoxAt(loc1) ^ At(loc1)) ^ BoxAt(loc2) ^ At(loc2)
+     TurnOn(s)
+     - Precond: Room(r) ^ Switch(s) ^ Within(s, r) ^ At(s) ^ Off(s)
+     - Effect: On(s)
+     TurnOff(s)
+     - Precond: Room(r) ^ Switch(s) ^ Within(s, r) ^ At(s) ^ On(s)
+     - Effect: Off(s)
+   b)
+     Init state:
+     Room(Hall) ^Room(Room1) ^ Room(Room2) ^ Room(Room3) ^ At(Room2) ^ Box(Box1)
+     ^ Box(Box2) ^ Box(Box3) ^ Within(Box1, Room1) ^ Within(Box2, Room1)
+     ^ Within(Box3, Room3) ^ Switch(S1) ^ Switch(S2) ^ Switch(S3) ^ Off(S1)
+     ^ Off(S2) ^ Off(S3) ^ Location(Room2Center) ^ Location(Room2Door)
+     ^ Location(Room1Center) ^ Location(Room1Door) ^ Location(Room3Center)
+     ^ Location(Room3Door)
+   c) Move(Room2Center, Room2Door, Room2)
+      Move(Room2Door, Room1Door, Hall)
+      Move(Room1Door, Box1, Room1)
+      Push(Box1, Box1, Room1Door, Room1)
+      Push(Box1, Room1Door, Room3Door, Hall)
+      Push(Box1, Room3Door, Room3Center, Room3)
+   d) Branching factor is 9.
+      With k rooms and m boxes is m * k.

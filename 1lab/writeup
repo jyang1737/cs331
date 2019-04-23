@@ -1,0 +1,48 @@
+James Yang
+Lab 1 Writeup
+
+Algorithms
+
+For the A* algorithm heuristic, I used the euclidian distance as the base. Then, depending on
+what terrain the pixel was, the base was multiplied by some factor. Then, to account for
+elevation differences, I added the difference between the two pixels' elevations. This would
+increase for uphill and decrease for downhill.
+
+Although this heuristic works, it is not admissible because there is potential for the number
+it generates to be greater than the actual distance. Since it would be extremely inefficient to
+calculate all the different types of terrain between the goal and the current pixel, by assuming
+that all of them to be the same one we are currently on, we can get a upper-bound estimate. At
+the worst, it will a factor of whatever the highest terrain is. Essentially, the worse the type
+of terrain is, the more it the algorithm will try to avoid it at all costs.
+
+Factors for terrain
+Open Land               1.5
+Rough Meadow            3
+Easy Forest             4
+Slow Forest             5
+Walk Forest             6
+Impassible Vegetation   10
+Lake/Swamp              10
+Ice                     1
+Mud                     7   
+Paved Road              1
+Footpath                1
+Out of Bounds           100
+
+
+Winter/Spring
+
+For these two seasons, I used BFS to find the pixels that needed to change. I searched through
+the entire image for pixels that were land next to at least one pixel of water (for winter) or
+water next to at least one pixel of land (for spring). After finding all edges, I ran the
+all of them through BFS simultaneously to try to minimize redundant checking.
+
+Winter paths ended around 30 seconds and Spring paths took about 1 min 30 seconds. 
+
+
+Output
+
+I keep track of the path taken from A* and pass that to a function that goes through the list
+and changes the color to red, indicating the path. The points they are going to is labeled
+with a gray square around it. The total distance in meters travelled is displayed at the end
+in command line. 
