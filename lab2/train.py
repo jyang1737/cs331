@@ -67,7 +67,6 @@ def importance(attr, ex):
     remainder = 0
     #may need to change depending on attributes
     for a in attr: #name of attribute
-        print(a)
         totalAttr = 0
         nl = 0
         en = 0
@@ -78,11 +77,16 @@ def importance(attr, ex):
                     nl += 1
                 else:
                     en += 1
+            else:
+                #need to add false case
                     
-        
+        print(a)
+        print(totalAttr)
+        print(nl)
+        print(en)
         remainder += (totalAttr/total) * entropy(nl/(nl+en))
         
-    gain[a] = totalE - remainder
+        gain[a] = totalE - remainder
 
     print(gain)
     return gain
@@ -128,7 +132,7 @@ def dtree(ex, attr, parent_ex):
 
 def main():
     examples = open(sys.argv[1], 'r')
-    hypothesis = sys.argv[2]
+    hypothesis = open(sys.argv[2], 'w')
     learning = sys.argv[3]
     ex = process(examples)
     ex = attributeprocess(ex)
@@ -136,6 +140,7 @@ def main():
 
     #print(ex)
     tree = dtree(ex, attributes, list())
-    print(tree)
+    print(str(tree))
+    hypothesis.write(str(tree))
 if __name__ == '__main__':
     main()
