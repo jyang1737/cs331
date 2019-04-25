@@ -67,6 +67,7 @@ def importance(attr, ex):
     remainder = 0
     #may need to change depending on attributes
     for a in attr: #name of attribute
+        print(a)
         totalAttr = 0
         nl = 0
         en = 0
@@ -77,9 +78,11 @@ def importance(attr, ex):
                     nl += 1
                 else:
                     en += 1
-
+                    
+        
         remainder += (totalAttr/total) * entropy(nl/(nl+en))
-        gain[a] = totalE - remainder
+        
+    gain[a] = totalE - remainder
 
     print(gain)
     return gain
