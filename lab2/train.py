@@ -1,21 +1,43 @@
 import random, math, sys
 language = ['en','nl']
-#attributes = {attrname:choices}
 
 def process(f):
-    x = {}
+    x = dict()
     for line in f:
         line = line.strip()
         line = line.split('|')
-        x[line[1]] = line[0]
+        x[line[1].lower()] = {'lan':line[0]}
     return x
+
+def attributeprocess(data):
+    for x in data:
+        attr = dict()
+        if (x.find('ij') != -1):
+            attr['ij'] = True
+        else:
+            attr['ij'] = False
+            
+        if (x.find('aa') != -1):
+            attr['aa'] = True
+        else:
+            attr['aa'] = False
+            
+        if (x.find(' de ') != -1):
+            attr['de'] = True
+        else:
+            attr['de'] = False
+
+        data[x]['attr'] = attr
+
+    return data
+                    
 
 def plurality(ex):
     res = dict()
     for lan in language:
         res[lan] = 0
     for x in ex:
-        if ex[x] == 'en':
+        if ex[x]['lan'] == 'en':
             res['en'] += 1
         else:
             res['nl'] += 1
@@ -27,35 +49,77 @@ def plurality(ex):
         return random.choice(language)
 
 def entropy(q):
+    if (q == 1 or q == 0):
+        return 0
     b = -(q * math.log(q,2) + (1-q) * math.log(1-q, 2))
     return b
 
 #finish tomorrwo
 def importance(attr, ex):
     gain = dict()
-    en = 0
-    total = 0
+    nl = 0
+    total = len(ex)
     for x in ex:
-        if (ex[x] == 'en'):
-            en += 1
-        total += 1
-    
-    #for a in attr:
-        
+        if (ex[x]['lan'] == 'nl'):
+            nl += 1
+    totalE = entropy(nl/total)
+
+    remainder = 0
+    #may need to change depending on attributes
+    for a in attr: #name of attribute
+        totalAttr = 0
+        nl = 0
+        en = 0
+        for x in ex: #line of text
+            if (ex[x]['attr'][a]):
+                totalAttr += 1
+                if (ex[x]['lan'] == 'nl'):
+                    nl += 1
+                else:
+                    en += 1
+
+        remainder += (totalAttr/total) * entropy(nl/(nl+en))
+        gain[a] = totalE - remainder
+
+    print(gain)
+    return gain
+
+def maxgain(gain):
+    max = list(gain.keys())[0]
+    maxval = gain[max]
+    for x in gain:
+        if (gain[x] > maxval):
+            max = x
+            maxval = gain[x]
+    return max
+
 def dtree(ex, attr, parent_ex):
     if not ex:
         return plurality(parent_ex)
-    elif all(x == list(ex.keys)[0] for x in ex.values()):
-        return list(ex.values())[0]
+    
+    test = True
+    initial = list(ex.values())[0]['lan']
+    for x in ex:
+        if (ex[x]['lan'] != initial):
+            test = False
+            break
+    if test:
+        return initial
     elif not attr:
         return plurality(ex)
     else:
         a = maxgain(importance(attr, ex))
+        print(a)
         tree = {a:dict()}
         #change later to accommodate for different attributes
-        for choice in attributes[a]:
-            exs = {x:ex[x] for x in ex if ex[x] == choice}
-            subtree = dtree(exs, attr.pop(a), ex)
+        for choice in attr[a]:
+            exs = {x:ex[x] for x in ex if ex[x]['attr'][a] == choice}
+            #print(list(exs.values()))
+            #print(attr)
+            #print(ex)
+            newattr = dict(attr)
+            newattr.pop(a)
+            subtree = dtree(exs, newattr, ex)
             tree[a][choice] = subtree
         return tree
 
@@ -64,8 +128,11 @@ def main():
     hypothesis = sys.argv[2]
     learning = sys.argv[3]
     ex = process(examples)
-    for x in ex:
-        print(x, ex[x])
+    ex = attributeprocess(ex)
+    attributes = {'ij':[True, False], 'aa':[True, False], 'de':[True, False]}
 
+    #print(ex)
+    tree = dtree(ex, attributes, list())
+    print(tree)
 if __name__ == '__main__':
     main()
