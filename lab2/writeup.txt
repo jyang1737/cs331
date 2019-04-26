@@ -14,6 +14,10 @@ To test the model:
    python3 predict.py <testing data>
 
 
+Data used
+For training, I used train.dat, t500.dat.
+For testing, I used allDutch_500.dat, allEng_500.dat and test.dat.
+
 Features
 I selected features based on what seemed to come up a lot in Dutch and not in English. I
 searched for specific letter combinations to try to discern one language from the other.

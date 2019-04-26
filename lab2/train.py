@@ -1,5 +1,6 @@
 import random, math, sys, pickle, predict
 language = ['en','nl']
+max_depth = 5
 
 def process(f):
     x = dict()
@@ -37,7 +38,7 @@ def attributeprocess(data):
         else:
             attr['uu'] = False
 
-        if (x.find('ieuw') != -1):
+        if (x.find('euw') != -1):
             attr['euw'] = True
         else:
             attr['euw'] = False
@@ -122,7 +123,7 @@ def importance(attr, ex, learning):
         
         gain[a] = totalE - remainder
 
-    print(gain)
+    #print(gain)
     return gain
 
 def maxgain(gain):
@@ -134,7 +135,8 @@ def maxgain(gain):
             maxval = gain[x]
     return max
 
-def dtree(ex, attr, parent_ex):
+def dtree(ex, attr, parent_ex, ctr):
+    ctr = 0
     if not ex:
         return plurality(parent_ex)
     
@@ -146,11 +148,11 @@ def dtree(ex, attr, parent_ex):
             break
     if test:
         return initial
-    elif not attr:
+    elif not attr or ctr >= max_depth:
         return plurality(ex)
     else:
         a = maxgain(importance(attr, ex, 'dt'))
-        print(a)
+        #print(a)
         tree = {a:dict()}
         #change later to accommodate for different attributes
         for choice in attr[a]:
@@ -160,7 +162,7 @@ def dtree(ex, attr, parent_ex):
             #print(ex)
             newattr = dict(attr)
             newattr.pop(a)
-            subtree = dtree(exs, newattr, ex)
+            subtree = dtree(exs, newattr, ex, ctr+1)
             tree[a][choice] = subtree
         return tree
 
@@ -212,7 +214,7 @@ def main():
     #for x in ex:
      #   print(ex[x]['attr']['het'])
     if (learning == 'dt'):
-        tree = dtree(ex, attributes, list())
+        tree = dtree(ex, attributes, list(), 0)
     elif (learning == 'ada'):
         tree = adaboost(ex, attributes, 10)
     pickle.dump(tree, hypothesis)

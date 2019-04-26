@@ -61,6 +61,7 @@ def main():
     text = open(sys.argv[2], 'r')
 
     tree = pickle.load(hypothesis)
+    print(tree)
     en = 0
     nl = 0
     for line in text:
