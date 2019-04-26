@@ -1,4 +1,4 @@
-import random, math, sys
+import random, math, sys, pickle, predict
 language = ['en','nl']
 
 def process(f):
@@ -27,6 +27,33 @@ def attributeprocess(data):
         else:
             attr['de'] = False
 
+        if (x.find(' het ') != -1):
+            attr['het'] = True
+        else:
+            attr['het'] = False
+
+        if (x.find('uu') != -1):
+            attr['uu'] = True
+        else:
+            attr['uu'] = False
+
+        if (x.find('ieuw') != -1):
+            attr['euw'] = True
+        else:
+            attr['euw'] = False
+
+
+        letter = x[0]
+        ctr = 0
+        for c in x[1:]:
+            if (letter == c):
+                ctr += 1
+            letter = c
+        if (ctr > 2):
+            attr['double'] = True
+        else:
+            attr['double'] = False
+        
         data[x]['attr'] = attr
 
     return data
@@ -55,7 +82,7 @@ def entropy(q):
     return b
 
 #finish tomorrwo
-def importance(attr, ex):
+def importance(attr, ex, learning):
     gain = dict()
     nl = 0
     total = len(ex)
@@ -64,10 +91,10 @@ def importance(attr, ex):
             nl += 1
     totalE = entropy(nl/total)
 
-    remainder = 0
     #may need to change depending on attributes
     for a in attr: #name of attribute
         totalAttr = 0
+        remainder = 0
         nl = 0
         en = 0
         for x in ex: #line of text
@@ -75,16 +102,23 @@ def importance(attr, ex):
                 totalAttr += 1
                 if (ex[x]['lan'] == 'nl'):
                     nl += 1
+                #else:
+                 #   en += 1
+            '''
+            else:
+                totalAttr += 1
+                if (ex[x]['lan'] == 'nl'):
+                    nl += 1
                 else:
                     en += 1
-            else:
-                #need to add false case
-                    
-        print(a)
-        print(totalAttr)
-        print(nl)
-        print(en)
-        remainder += (totalAttr/total) * entropy(nl/(nl+en))
+            '''     
+        #print(a)
+        #print(totalAttr)
+        #print(nl)
+        #print(en)
+        if (totalAttr != 0):
+            singleremainder = (totalAttr/total) * entropy(nl/(totalAttr))
+            remainder += singleremainder
         
         gain[a] = totalE - remainder
 
@@ -115,7 +149,7 @@ def dtree(ex, attr, parent_ex):
     elif not attr:
         return plurality(ex)
     else:
-        a = maxgain(importance(attr, ex))
+        a = maxgain(importance(attr, ex, 'dt'))
         print(a)
         tree = {a:dict()}
         #change later to accommodate for different attributes
@@ -130,17 +164,57 @@ def dtree(ex, attr, parent_ex):
             tree[a][choice] = subtree
         return tree
 
+def adaboost(ex, attr, k):
+    n = len(ex)
+    for x in ex:
+        ex[x]['w'] = 1/n
+
+    h = list()
+    z = list()
+    for i in range(0,k):
+      
+        h.append(dtree(ex, attr, list()))
+        error = 0
+        for x in ex:
+            if (predict.process(x, h[i]) != ex[x]['lan']):
+                error += ex[x]['w']
+        if (error == 0):
+            break
+        for x in ex:
+            if (predict.process(x, h[i]) == ex[x]['lan']):
+                ex[x]['w'] *= error/(1-error)
+        totalweight = 0
+        for x in ex:
+            totalweight += ex[x]['w']
+        for x in ex:
+            ex[x]['w'] /= totalweight
+        z.append(math.log((1-error)/error))
+
+    maxweight = z[0]
+    maxpos = 0
+    for i in range(0,k):
+        if (z[i] > maxweight):
+            maxweight = z[i]
+            maxpos = z[i]
+    return h[maxpos]
+        
+        
+    
 def main():
     examples = open(sys.argv[1], 'r')
-    hypothesis = open(sys.argv[2], 'w')
+    hypothesis = open(sys.argv[2], 'wb')
     learning = sys.argv[3]
     ex = process(examples)
     ex = attributeprocess(ex)
-    attributes = {'ij':[True, False], 'aa':[True, False], 'de':[True, False]}
+    attributes = {'ij':[True, False], 'aa':[True, False], 'de':[True, False], 'het':[True, False], 'uu':[True, False], 'euw':[True, False], 'double':[True, False]}
 
     #print(ex)
-    tree = dtree(ex, attributes, list())
-    print(str(tree))
-    hypothesis.write(str(tree))
+    #for x in ex:
+     #   print(ex[x]['attr']['het'])
+    if (learning == 'dt'):
+        tree = dtree(ex, attributes, list())
+    elif (learning == 'ada'):
+        tree = adaboost(ex, attributes, 10)
+    pickle.dump(tree, hypothesis)
 if __name__ == '__main__':
     main()

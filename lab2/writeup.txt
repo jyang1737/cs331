@@ -1,0 +1,48 @@
+James Yang
+Lab 2 Writeup
+
+Decision Tree / Adaboost
+
+How to run
+
+To run the program, you will need Python3 and pickle package for serialization.
+
+To train the model:
+   python3 train.py <training data> <hypothesis file> <'dt' or 'ada'>
+
+To test the model:
+   python3 predict.py <testing data>
+
+
+Features
+I selected features based on what seemed to come up a lot in Dutch and not in English. I
+searched for specific letter combinations to try to discern one language from the other.
+Some of the substrings included:
+     - de
+     - ij
+     - het
+     - aa
+     - uu
+     - euw
+In addition, I noticed there were a lot of doubled letters in Dutch words, so I searched
+the text for multiple occurrences of two of the same letters in a row.
+
+Decision Tree Algorithm
+For the algorithm, I stored the examples in a dictionary, with the text as the key. Within
+the value, I stored the given language it was and the attributes it contained. This way,
+I could search for the attributes by looping through just the dictionary. This would help with
+calculating information gain and entropy by passing it into the function.
+
+The resulting tree was also stored in a dictionary. The first key would be the maximum
+gain attribute. It would contain a dictionary for the choices it could make for that
+attribute. Then, a similar structure would continue for each path until it reached a
+language. The final tree is serialized and stored in the hypothesis file. 
+
+The prediction file deserializes the tree. It begins by processing the line of text to
+search for the attributes. From there, it uses the tree to follow the path until it reaches
+a language.
+
+Adaboost
+For the adaboost algorithm, I used K=10 and it appears that not much was different from the
+original decision tree algorithm. This may be a result of not setting up the weights correctly,
+therefore the error rates weren't as accurate as they could have been. 
