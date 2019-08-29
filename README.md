@@ -1,1 +1,1 @@
-# cs331
+# cs331 - Intro to Intelligent Systems
